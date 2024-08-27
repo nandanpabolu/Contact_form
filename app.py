@@ -14,11 +14,8 @@ def send_email(name, email, message):
     receiver_email = "nandan.pabolu808@gmail.com"  # Replace with your email
     password = os.getenv("EMAIL_PASSWORD")  # Fetch password from environment variable
     
-    if sender_email and password:
-        st.write("Environment variables loaded successfully.")
-        st.write(f"Sender Email: {sender_email}")  # Optional, for debugging
-    else:
-        st.error("Error: Environment variables are not loaded properly.")
+    if not sender_email or not password:
+        st.error("Email credentials are not configured properly.")
         return False
 
     msg = MIMEMultipart("alternative")
@@ -46,24 +43,37 @@ def send_email(name, email, message):
         return False
 
 # Streamlit App
-st.title("Contact Me")
+st.set_page_config(page_title="Contact Me", page_icon="📬", layout="centered")
 
-st.write("Fill out the form below to contact me:")
+st.title("📬 Contact Me")
+st.write("If you have any questions, feel free to reach out using the form below.")
 
-# Contact Form
-with st.form("contact_form"):
-    name = st.text_input("Name")
-    email = st.text_input("Email")
-    message = st.text_area("Message")
-
-    submit_button = st.form_submit_button("Send")
-
-    if submit_button:
-        if not name or not email or not message:
-            st.error("Please fill out all fields.")
-        else:
-            success = send_email(name, email, message)
-            if success:
-                st.success("Your message has been sent!")
-            else:
-                st.error("There was an error sending your message. Please try again.")
+st.markdown("""
+<style>
+    .stTextInput, .stTextArea {
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-bottom: 15px;
+    }
+    .stButton > button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .stButton > button:hover {
+        background-color: #0056b3;
+    }
+    .success-message {
+        font-size: 16px;
+        color: green;
+    }
+    .error-message {
+        font-size: 16px;
+        color: red;
+    }
+</s
