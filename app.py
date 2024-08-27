@@ -71,4 +71,25 @@ st.markdown(
         .error-message {
             font-size: 16px;
             color: red;
-    
+        }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Contact Form
+with st.form("contact_form", clear_on_submit=True):
+    name = st.text_input("Name", placeholder="Enter your name")
+    email = st.text_input("Email", placeholder="Enter your email address")
+    message = st.text_area("Message", placeholder="Enter your message here...")
+
+    submit_button = st.form_submit_button("Send")
+
+    if submit_button:
+        if not name or not email or not message:
+            st.error("Please fill out all fields.", icon="🚨")
+        else:
+            success = send_email(name, email, message)
+            if success:
+                st.success("Your message has been sent! Thank you for reaching out.", icon="✅")
+            else:
+                st.error("There was an error sending your message. Please try again later.", icon="❌")
