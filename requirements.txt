@@ -1,2 +1,2 @@
 streamlit
-python-do
+python-dotenv
