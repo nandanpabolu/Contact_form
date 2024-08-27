@@ -2,17 +2,12 @@ import streamlit as st
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import os
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
 
 # Function to send email
 def send_email(name, email, message):
-    sender_email = os.getenv("SENDER_EMAIL")  # Fetch email from environment variable
+    sender_email = st.secrets["SENDER_EMAIL"]  # Fetch email from Streamlit secrets
     receiver_email = "nandan.pabolu808@gmail.com"  # Replace with your email
-    password = os.getenv("EMAIL_PASSWORD")  # Fetch password from environment variable
+    password = st.secrets["EMAIL_PASSWORD"]  # Fetch password from Streamlit secrets
     
     if not sender_email or not password:
         st.error("Email credentials are not configured properly.")
@@ -48,7 +43,6 @@ st.set_page_config(page_title="Contact Me", page_icon="📬", layout="centered")
 st.title("📬 Contact Me")
 st.write("If you have any questions, feel free to reach out using the form below.")
 
-# Improved UI with custom CSS
 st.markdown(
     """
     <style>
