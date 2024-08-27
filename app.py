@@ -48,32 +48,54 @@ st.set_page_config(page_title="Contact Me", page_icon="📬", layout="centered")
 st.title("📬 Contact Me")
 st.write("If you have any questions, feel free to reach out using the form below.")
 
-st.markdown("""
-<style>
-    .stTextInput, .stTextArea {
-        padding: 10px;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        margin-bottom: 15px;
-    }
-    .stButton > button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-    }
-    .stButton > button:hover {
-        background-color: #0056b3;
-    }
-    .success-message {
-        font-size: 16px;
-        color: green;
-    }
-    .error-message {
-        font-size: 16px;
-        color: red;
-    }
-</s
+# Improved UI with custom CSS
+st.markdown(
+    """
+    <style>
+        .stTextInput, .stTextArea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        .stButton > button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .stButton > button:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            font-size: 16px;
+            color: green;
+        }
+        .error-message {
+            font-size: 16px;
+            color: red;
+        }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Contact Form
+with st.form("contact_form", clear_on_submit=True):
+    name = st.text_input("Name", placeholder="Enter your name")
+    email = st.text_input("Email", placeholder="Enter your email address")
+    message = st.text_area("Message", placeholder="Enter your message here...")
+
+    submit_button = st.form_submit_button("Send")
+
+    if submit_button:
+        if not name or not email or not message:
+            st.error("Please fill out all fields.", icon="🚨")
+        else:
+            success = send_email(name, email, message)
+            if success:
+                st.success("Your message has been sent! Thank you for reaching out.", icon="✅")
+            else:
+                st.error("There was an error sending your message. Please try again later.", icon="❌")
